@@ -1,38 +1,40 @@
 import java.util.Arrays;
+
 public class Main {
-    //metodo principal para ordenar un array usando Quick Sort
-    public static void quickSort(int[] arr, int low, int high){
-        if (low < high){
-            int pl = partition(arr, low, high); //Obtiene el indice de partición.
-            quickSort(arr, low, pl - 1); // Ordena la parte izquierda.
-            quickSort(arr, pl + 1, high); //Ordena la parte derecha.
-
+    //Metodo principal para ordenar un array usando Merge Sort
+    public static void  mergeSort(int[]arr){
+        if (arr.length < 2){
+            return; //Caso base: el array ya esta ortdenado
         }
-    }
+        int mid = arr.length /2; //Encuentra el punto medio
+        int[] left = Arrays.copyOfRange(arr,0,mid); //Crea el sub-array izquierdo
+        int[] right = Arrays.copyOfRange(arr, mid, arr.length); //Crea el sub-array derecho
 
-    //Metodo para particionar el array
-    private static int partition(int[] arr, int low, int high){
-        int pivot = arr[high]; //Elige el ultimo elemento como pivote.
-        int i = (low - 1); //Indice del elemento más pequeño
-        for (int j = low; j < high; j++) {
-            if (arr[j] <= pivot) { //Compara con el pivote
-                i++;
-                //Intercambia los elementos
-                int temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
+        mergeSort(left); //Ordena el sub-array izquierdo
+        mergeSort(right); //Ordena el sub-array derecho
+
+        merge(arr, left, right); //Combina los sub-arrays ordenados
+    }
+    //Metodo para combinar dos sub-arrays ordenados
+    private static void merge(int[]arr, int[] left, int[] right){
+        int i = 0, j = 0, k = 0;
+        while (i < left.length && j < right.length){
+            if (left[i] <= right[j]){
+                arr[k++] = left[i++];
+            } else {
+                arr[k++] = right[j++];
             }
         }
-        // Intercambia el pivote con el elemento en la posición correcta
-        int temp = arr[i + 1];
-        arr[i + 1] = arr[high];
-        arr[high] = temp;
-        return i + 1; // Devuelve
+        while (i < left.length){
+            arr[k++] = left[i++];
+        }
+        while (j < right.length){
+            arr[k++] = right[j++];
+        }
     }
-
     public static void main(String[] args){
-        int[] prices = {200,50,120,30,80}; //Array precios
-        quickSort(prices, 0,prices.length - 1); //Ordena el array usando Quick Sort
-        System.out.println("Precios ordenados: " + Arrays.toString(prices));
+        int[] userNames = {42,35,50,18,29}; //Array de identificadores de usuarios
+        mergeSort(userNames); //Ordena los identificadores usando Merge Sort
+        System.out.println("Usuarios ordenados: " + Arrays.toString(userNames));
     }
 }
