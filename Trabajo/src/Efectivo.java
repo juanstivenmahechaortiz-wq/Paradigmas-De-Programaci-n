@@ -1,0 +1,7 @@
+public class Efectivo implements MetodoPago{
+
+    @Override
+    public void pagar(double valor){
+        System.out.println("Pago "+ valor + " con efectivo.");
+    }
+}
